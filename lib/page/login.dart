@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 27.81),
             Image.asset('assets/images/logo.png'),
             const SizedBox(height: 34.1),
-            const Text('Welcome Back!', style: TextStyle(fontSize: 32.09)),
+            const Text('Welcome Back!', style: TextStyle(fontSize: 32.09, fontWeight: FontWeight.bold)),
             const SizedBox(height: 56.63),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),

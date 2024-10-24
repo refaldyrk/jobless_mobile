@@ -13,7 +13,7 @@ class JobListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print('');
+        Navigator.pushReplacementNamed(context, '/job_details');
       },
       child:  Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),

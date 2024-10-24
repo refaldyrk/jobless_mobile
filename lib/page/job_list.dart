@@ -37,6 +37,20 @@ class _JobListPageState extends State<JobListPage> {
       appBar: AppBar(backgroundColor: secondaryColor, foregroundColor: primaryColor, title:  const Padding(padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
         child: Text('JOBLESS', style: TextStyle(fontWeight: FontWeight.bold)),
       ),),
+      bottomNavigationBar: NavigationBar(
+        indicatorColor: secondaryColor,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home, color: primaryColor),
+            icon: Icon(Icons.home, color: primaryColor),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon:Icon(Icons.supervised_user_circle),
+            label: 'Profile',
+          ),
+        ],
+      ),
       body:  Stack(
         children: [
           Container(
@@ -82,7 +96,7 @@ class _JobListPageState extends State<JobListPage> {
                       child: IconButton(
                         icon: Icon(Icons.search, color: primaryColor),
                         onPressed: () {
-                          // Logika pencarian.
+
                         },
                       ),
                     ),
