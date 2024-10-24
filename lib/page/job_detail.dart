@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jobless/model/job.dart';
 import 'package:jobless/styles.dart';
 
 class JobDetailsPage extends StatelessWidget {
   static const routeName = '/job_details';
-
-  const JobDetailsPage({super.key});
+  final Job job;
+  const JobDetailsPage({required this.job, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +50,13 @@ class JobDetailsPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: Text('UI/UX Designer', style: TextStyle(fontWeight: FontWeight.w700),),
+                      child: Text(job.title, style: TextStyle(fontWeight: FontWeight.w700),),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Google',
+                          job.company,
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         Padding(
@@ -66,7 +67,7 @@ class JobDetailsPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'California',
+                          job.location,
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         Padding(
@@ -77,7 +78,7 @@ class JobDetailsPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '1 day ago',
+                          job.date,
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                       ],

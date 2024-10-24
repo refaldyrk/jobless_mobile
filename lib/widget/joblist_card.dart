@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jobless/model/job.dart';
+import 'package:jobless/page/job_detail.dart';
 import 'package:jobless/styles.dart';
 
 class JobListCard extends StatelessWidget {
@@ -13,7 +14,7 @@ class JobListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushReplacementNamed(context, '/job_details');
+       Navigator.push(context, MaterialPageRoute(builder: (context) => JobDetailsPage(job: job,)));
       },
       child:  Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),

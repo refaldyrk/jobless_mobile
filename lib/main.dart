@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jobless/model/job.dart';
 import 'package:jobless/page/job_detail.dart';
 import 'package:jobless/page/job_list.dart';
 import 'package:jobless/page/login.dart';
@@ -27,7 +28,10 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginPage.routeName: (context) => const LoginPage(),
         JobListPage.routeName: (context) => const JobListPage(),
-        JobDetailsPage.routeName: (context) => const JobDetailsPage(),
+        JobDetailsPage.routeName: (context) {
+          final job = ModalRoute.of(context)!.settings.arguments as Job;
+          return JobDetailsPage(job: job);
+        },
       },
     );
   }
