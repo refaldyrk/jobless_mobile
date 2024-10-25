@@ -16,10 +16,15 @@ class JobListPage extends StatefulWidget {
 }
 
 class _JobListPageState extends State<JobListPage> {
-   List<Job> jobList = [];
+  final TextEditingController searchCtrl = TextEditingController();
+  int _selectedIndex = 0;
+  List<Job> jobList = [];
   @override
   void initState() {
     super.initState();
+    setState(() {
+      _selectedIndex = 0;
+    });
     getJobs();
   }
 
@@ -30,6 +35,38 @@ class _JobListPageState extends State<JobListPage> {
       jobList = List<Job>.from(data.map((model)=> Job.fromJson(model)));
     });
   }
+
+  Future<void> searchJobs() async {
+    final String response = await rootBundle.loadString('assets/job.json');
+    final data = await json.decode(response);
+
+    setState(() {
+      if (searchCtrl.text.isEmpty) {
+        jobList = List<Job>.from(data.map((model) => Job.fromJson(model)));
+      } else {
+        jobList = List<Job>.from(data.map((model) => Job.fromJson(model))).where((job) {
+          return job.title.toLowerCase().contains(searchCtrl.text.toLowerCase()) ||
+              job.company.toLowerCase().contains(searchCtrl.text.toLowerCase());
+        }).toList();
+      }
+    });
+  }
+
+  void _onDestinationSelected(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 1) {
+      Navigator.pushNamed(context, '/notifications');
+      _selectedIndex = 0;
+    }
+
+    if (index == 0) {
+      getJobs();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,14 +75,31 @@ class _JobListPageState extends State<JobListPage> {
         child: Text('JOBLESS', style: TextStyle(fontWeight: FontWeight.bold)),
       ),),
       bottomNavigationBar: NavigationBar(
+        backgroundColor: primaryColor,
         indicatorColor: secondaryColor,
+        selectedIndex: _selectedIndex,
+        onDestinationSelected: _onDestinationSelected,
         destinations: const <Widget>[
           NavigationDestination(
             selectedIcon: Icon(Icons.home, color: primaryColor),
-            icon: Icon(Icons.home, color: primaryColor),
+            icon: Icon(Icons.home),
             label: 'Home',
           ),
           NavigationDestination(
+            label: 'Notifications',
+            selectedIcon: Icon(Icons.notifications, color: primaryColor,),
+            icon: Stack(children: <Widget>[
+              Icon(Icons.notifications),
+              Positioned(
+                // draw a red marble
+                top: 0.0,
+                right: 0.0,
+                child: Icon(Icons.brightness_1, size: 8.0, color: Colors.red),
+              )
+            ]),
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.supervised_user_circle, color: primaryColor,),
             icon:Icon(Icons.supervised_user_circle),
             label: 'Profile',
           ),
@@ -78,6 +132,7 @@ class _JobListPageState extends State<JobListPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                 child: TextField(
+                 controller: searchCtrl,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -96,7 +151,7 @@ class _JobListPageState extends State<JobListPage> {
                       child: IconButton(
                         icon: Icon(Icons.search, color: primaryColor),
                         onPressed: () {
-
+                          searchJobs();
                         },
                       ),
                     ),

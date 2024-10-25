@@ -4,6 +4,7 @@ import 'package:jobless/page/job_detail.dart';
 import 'package:jobless/page/job_list.dart';
 import 'package:jobless/page/login.dart';
 import 'package:jobless/styles.dart';
+import 'package:jobless/page/notifications.dart';
 
 void main() => runApp(const MyApp());
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           final job = ModalRoute.of(context)!.settings.arguments as Job;
           return JobDetailsPage(job: job);
         },
+        NotificationsPage.routeName: (context) => const NotificationsPage(),
       },
     );
   }

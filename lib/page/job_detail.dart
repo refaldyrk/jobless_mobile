@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:jobless/model/job.dart';
 import 'package:jobless/styles.dart';
+import 'package:jobless/page/job_list.dart';
 
-class JobDetailsPage extends StatelessWidget {
+class JobDetailsPage extends StatefulWidget {
   static const routeName = '/job_details';
   final Job job;
   const JobDetailsPage({required this.job, super.key});
 
+  @override
+  State<JobDetailsPage> createState() => _JobDetailsPage();
+}
+
+class _JobDetailsPage extends State<JobDetailsPage> {
+  late Job job;
+  late bool readMore = false;
+
+  void initState() {
+    super.initState();
+    setState(() {
+      job = widget.job;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,28 +117,33 @@ class JobDetailsPage extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem ...',
+                    'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.black54,
                     ),
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
+                    maxLines: readMore ? null : 5,
+                    overflow: readMore ? TextOverflow.visible : TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 16),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          readMore = !readMore;
+                        });
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: secondaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: Text('Read more'),
+                      child: Text(!readMore ? 'Read more' : 'Read less'),
                     ),
                   ),
+
                   SizedBox(height: 25),
                   Text(
                     'Requirements',
@@ -200,7 +220,20 @@ class JobDetailsPage extends StatelessWidget {
                   )
                 ],
               )
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 25),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: Icon(Icons.arrow_back),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: secondaryColor,
+                  shape: CircleBorder(),
+                ),
+              ),
+            ),
           ],
         ),
       ),
